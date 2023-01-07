@@ -1,6 +1,8 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Api\Authorization\AuthController;
+use App\Http\Controllers\InterestController;
+use App\Http\Middleware\Interest\InterestAccessMiddleware;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +16,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+/** Authorization */
+Route::post('register', [AuthController::class , 'register']);
+Route::post('login', [AuthController::class , 'login']);
+Route::get('test', [AuthController::class , 'test']);
+
+Route::middleware('auth:sanctum')->group( function () {
+    Route::post('logout', [AuthController::class , 'logout']);
+
+    Route::apiResource('interests', InterestController::class)->except(['update', 'destroy']);
+
+    Route::middleware(InterestAccessMiddleware::class)->group(function () {
+        Route::put('interests/{interest}', [InterestController::class, 'update']);
+        Route::delete('interests/{interest}', [InterestController::class, 'destroy']);
+    });
+
+    Route::get('search/interests', [InterestController::class, 'search']);
 });

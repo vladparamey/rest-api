@@ -2,8 +2,17 @@
 
 namespace App\Providers;
 
+use App\Http\Resources\InterestResource;
+use App\Models\Interest;
+use App\Models\User;
+use App\Observers\InterestObserver;
+use App\Observers\UserObserver;
 use Illuminate\Support\ServiceProvider;
 
+/**
+ * Class AppServiceProvider
+ * @package App\Providers
+ */
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -23,6 +32,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        InterestResource::withoutWrapping();
+        User::observe(UserObserver::class);
+        Interest::observe(InterestObserver::class);
     }
 }
