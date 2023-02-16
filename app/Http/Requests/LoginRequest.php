@@ -32,15 +32,4 @@ class LoginRequest extends FormRequest
             'password' => 'required|string|max:255'
         ];
     }
-
-    /**
-     * @return array
-     */
-    public function data(): array
-    {
-        return [
-            'email' => $this->email,
-            'password' => $this->password,
-        ];
-    }
 }

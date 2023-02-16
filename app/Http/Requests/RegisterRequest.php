@@ -33,16 +33,4 @@ class RegisterRequest extends FormRequest
             'password' => 'required|string|max:255|confirmed'
         ];
     }
-
-    /**
-     * @return array
-     */
-    public function data(): array
-    {
-        return [
-            'name' => $this->name,
-            'email' => $this->email,
-            'password' => $this->password
-        ];
-    }
 }

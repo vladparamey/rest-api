@@ -24,7 +24,7 @@ class AuthController extends Controller
      */
     public function register(RegisterRequest $request): JsonResponse
     {
-        $user = User::create($request->data());
+        $user = User::create($request->validated());
 
         return Response::json(['token' => $user->createToken(env('APP_NAME'))->plainTextToken]);
     }
@@ -35,7 +35,7 @@ class AuthController extends Controller
      */
     public function login(LoginRequest $request): JsonResponse
     {
-        if (Auth::attempt($request->data())) {
+        if (Auth::attempt($request->validated())) {
             /** @var User $user */
             $user = Auth::user();
 
