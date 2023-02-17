@@ -3,12 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Interest\InterestRequest;
-use App\Http\Resources\InterestCollection;
 use App\Http\Resources\InterestResource;
 use App\Models\Interest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Response;
 
 /**
@@ -20,11 +19,11 @@ class InterestController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return InterestCollection
+     * @return AnonymousResourceCollection
      */
-    public function index(): InterestCollection
+    public function index(): AnonymousResourceCollection
     {
-        return new InterestCollection(Interest::with(['category', 'user'])->get());
+        return InterestResource::collection(Interest::with(['category', 'user'])->get());
     }
 
     /**
@@ -78,11 +77,11 @@ class InterestController extends Controller
 
     /**
      * @param Request $request
-     * @return InterestCollection
+     * @return AnonymousResourceCollection
      */
-    public function search(Request $request): InterestCollection
+    public function search(Request $request): AnonymousResourceCollection
     {
-        return new InterestCollection(Interest::where('name', 'like', '%' . ($request->get('search') ?? '') . '%')
+        return InterestResource::collection(Interest::where('name', 'like', '%' . ($request->get('search') ?? '') . '%')
             ->with(['category', 'user'])
             ->get());
     }
