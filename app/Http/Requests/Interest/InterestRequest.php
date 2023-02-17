@@ -32,15 +32,4 @@ class InterestRequest extends FormRequest
             'category_id' => 'required|exists:categories,id',
         ];
     }
-
-    /**
-     * @return array
-     */
-    public function data(): array
-    {
-        return [
-            'category_id' => $this->category_id,
-            'name' => $this->name
-        ];
-    }
 }

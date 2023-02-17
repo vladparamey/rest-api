@@ -34,7 +34,7 @@ class InterestController extends Controller
      */
     public function store(InterestRequest $request): InterestResource
     {
-        return new InterestResource(Interest::create($request->data()));
+        return new InterestResource(Interest::create($request->validated()));
     }
 
     /**
@@ -57,7 +57,7 @@ class InterestController extends Controller
      */
     public function update(InterestRequest $request, Interest $interest): InterestResource
     {
-        $interest->update($request->data());
+        $interest->update($request->validated());
 
         return new InterestResource($interest);
     }
